@@ -1,79 +1,11 @@
-title = "Custom Company Secret Rules"
-
-
-# ==================================================
-# Rule 1: Generic Password Detection
-# ==================================================
-
-[[rules]]
-id = "generic-password"
-description = "Detect hardcoded passwords"
-
-regex = '''(?i)(password|passwd|pwd)\s*[:=]\s*['"]?[A-Za-z0-9@#$%^&*()_+\-]{4,}'''
-
-tags = ["password"]
-
-
-# Ignore known demo/sample files
-[[rules.allowlists]]
-paths = [
-    '''README\.md''',
-    '''mvnw''',
-    '''docker-compose\.yml''',
-    '''k8s/db\.yml'''
-]
-
-
-# ==================================================
-# Rule 2: Generic Secret / Token Detection
-# ==================================================
-
-[[rules]]
-id = "generic-secret"
-description = "Detect API keys, tokens and secrets"
-
-regex = '''(?i)(secret|token|apikey|api_key|access_key)\s*[:=]\s*['"]?[A-Za-z0-9_\-@#$%^&+=/]{5,}'''
-
-tags = ["secret"]
-
-
-# Ignore environment variable placeholders
-[[rules.allowlists]]
-regexes = [
-    '''\$\{.*\}'''
-]
-
-
-# ==================================================
-# Rule 3: Database Credential Detection
-# ==================================================
-
-[[rules]]
-id = "database-credentials"
-description = "Detect hardcoded database credentials"
-
-regex = '''(?i)(db.username|db.password|spring.datasource.password)\s*[:=]\s*.+'''
-
-tags = ["database"]
-
-
-# Ignore Spring Boot env variable based configs
-[[rules.allowlists]]
-paths = [
-    '''src/main/resources/application-mysql\.properties''',
-    '''src/main/resources/application-postgres\.properties'''
-]
-
-
-# ==================================================
-# Global Allowlist
-# ==================================================
+title = "gitleaks config"
 
 [allowlist]
-description = "Ignore non sensitive files"
-
+description = "Ignore sample PetClinic passwords and documentation files"
 paths = [
-    '''target/.*''',
-    '''build/.*''',
-    '''.git/.*'''
+  '''README\.md''',
+  '''docker-compose\.yml''',
+  '''k8s/db\.yml''',
+  '''mvnw''',
+  '''src/main/resources/application-.*\.properties'''
 ]
